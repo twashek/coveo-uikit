@@ -13,6 +13,7 @@
     "@coveo/atomic": "workspace:*",
     "@coveo/atomic-react": "workspace:*",
     "@coveo/headless": "workspace:*",
+    "latest": "0.2.0",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"

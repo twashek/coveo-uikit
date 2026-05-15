@@ -59,10 +59,11 @@ type Props = {
 };
 
 function getElectronicsConfiguration(): SearchEngineConfiguration {
-  const accessToken = 'xxc23ce82a-3733-496e-b37e-9736168c4fd9';
-  const organizationId = 'electronicscoveodemocomo0n2fu8v';
-  const pipeline = 'UI_KIT_E2E';
-  const searchHub = 'UI_KIT_E2E';
+  //const accessToken = 'xxc23ce82a-3733-496e-b37e-9736168c4fd9';
+  const accessToken = 'xx141be452-d8ad-4e51-8098-9cf85feab66c'; //'xx2c7248f0-2b95-4caf-b69e-7540b3bdfc22'; //first org
+  const organizationId = 'psjlzopg4zxkq4jxmyvglhacadq'; //'psjyvooq42sokr7izw4wie4cehi'; //'electronicscoveodemocomo0n2fu8v';
+  const pipeline = 'default';
+  const searchHub = 'default'; //'UI_KIT_E2E';
   return {
     accessToken,
     organizationId,

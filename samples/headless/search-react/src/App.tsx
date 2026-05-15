@@ -7,6 +7,7 @@ import {RecommendationPage} from './pages/RecommendationPage';
 import {SamlPage} from './pages/SamlPage';
 import {SearchPage, type SearchPageProps} from './pages/SearchPage';
 import {StandaloneSearchBoxPage} from './pages/StandaloneSearchBoxPage';
+import './pages/AtomicReactPage.css';
 
 function App(props: SearchPageProps) {
   const activeNavLink: React.CSSProperties = {color: 'red'};

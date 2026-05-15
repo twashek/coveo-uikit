@@ -44,6 +44,9 @@ atomic-color-facet[field='cat_color']::part(value-Multi) {
   --search-box-width: 648px;
 }
 
+button {
+  background-color: #b43a3a;
+}
 atomic-search-box {
   margin-top: 1rem;
 }
