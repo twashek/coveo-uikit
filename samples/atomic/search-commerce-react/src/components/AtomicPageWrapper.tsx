@@ -120,6 +120,12 @@ export const AtomicPageWrapper: FunctionComponent<Props> = ({
         'cat_categories',
         'cat_review_count',
         'cat_color',
+        'pokemon_image',
+        'pokemon_name',
+        'pokemon_desc',
+        'pokemon_generation',
+        'pokemon_species',
+        'pokemon_types',
       ]}
       localization={(i18n) => {
         i18n.addResourceBundle('en', 'translation', {
@@ -144,6 +150,12 @@ export const AtomicPageWrapper: FunctionComponent<Props> = ({
         <AtomicLayoutSection section="facets">
           <AtomicFacetManager>
             <AtomicFacet field="source" label="Source" />
+            <AtomicFacet field="pokemon_types" label="Pokemon Type" />
+            <AtomicFacet field="pokemon_species" label="Pokemon Species" />
+            <AtomicFacet
+              field="pokemon_generation"
+              label="Pokemon Generation"
+            />
             <AtomicFacet field="objecttype" label="Type" />
             <AtomicNumericFacet
               field="cat_review_count"

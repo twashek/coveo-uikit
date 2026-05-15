@@ -69,3 +69,8 @@ atomic-color-facet[field='cat_color']::part(value-Multi) {
 atomic-search-layout {
   row-gap: var(--atomic-layout-spacing-y);
 }
+.poke-border {
+  border: 3px solid #ff6600 !important;
+  border-radius: 4px;
+  padding: 8px;
+}
