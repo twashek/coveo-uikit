@@ -9,7 +9,10 @@ import {InstantResultsPage} from './pages/InstantResultsPage';
 import {RecsPage} from './pages/RecsPage';
 import {ResultListPage} from './pages/ResultListPage';
 import {TableResultListPage} from './pages/TableResultListPage';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {DetailPage} from './pages/detailPage';
 
+// --- Constants for your existing pages ---
 const LIST_PAGE = 'Result list';
 const FOLDED_LIST_PAGE = 'Folded result list';
 const INSTANT_RESULTS_PAGE = 'Instant results';
@@ -30,16 +33,19 @@ const pages = [
   COMMERCE_RECOMMENDATIONS_PAGE,
 ];
 
-function App() {
+// --- Component to render the common header and your existing page logic ---
+function MainAppContent() {
   const initialPage = pages.find((page) =>
     decodeURIComponent(window.location.search).includes(`page=${page}`)
   );
-  const [page, setPage] = useState(initialPage || LIST_PAGE);
+  const [page, setPage] = useState(initialPage || LIST_PAGE); // Default to LIST_PAGE if no param
+
   return (
     <>
       <header>
         <span className="pageTitle">{page} example</span>
         <ul>
+          {/* Your existing HeaderLinks */}
           <HeaderLink page={LIST_PAGE} currentPage={page} setPage={setPage} />
           <HeaderLink
             page={FOLDED_LIST_PAGE}
@@ -74,6 +80,8 @@ function App() {
           />
         </ul>
       </header>
+
+      {/* Your existing conditional rendering logic for pages */}
       {page === LIST_PAGE && <ResultListPage />}
       {page === FOLDED_LIST_PAGE && <FoldedResultListPage />}
       {page === INSTANT_RESULTS_PAGE && <InstantResultsPage />}
@@ -85,6 +93,22 @@ function App() {
       {page === COMMERCE_SEARCH_PAGE && <CommerceSearchPage />}
       {page === COMMERCE_RECOMMENDATIONS_PAGE && <CommerceRecommendationPage />}
     </>
+  );
+}
+
+// --- Main App Component with BrowserRouter ---
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Route for your Product Detail Page - now using DetailPage */}
+        <Route path="/pokemon/:pokemonName" element={<DetailPage />} />
+
+        {/* Catch-all route for all other paths, rendering your existing app content */}
+        {/* The path="*" means "match any path not matched by previous routes" */}
+        <Route path="*" element={<MainAppContent />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
