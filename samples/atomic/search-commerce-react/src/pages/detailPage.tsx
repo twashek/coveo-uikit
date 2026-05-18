@@ -7,18 +7,42 @@ export const DetailPage = () => {
 
   if (!result) {
     return (
-      <div>
+      <div style={{padding: '2rem'}}>
         No Pokemon data found. <Link to="/">Go back to search</Link>
       </div>
     );
   }
 
-  // Construct your image URL
-  const formattedName = (result.raw.pokemon_name || '')
+  // 1. Format Name once for all URL options
+  const rawName = (result.raw.pokemon_name as string) || '';
+  //const name = rawName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const name = rawName
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-');
-  const avifUrl = `https://img.pokemondb.net/artwork/avif/${formattedName}.avif`;
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Strips accents like é -> e
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
+  const imageUrls = {
+    avif: `https://img.pokemondb.net/artwork/avif/${name}.avif`,
+    large: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
+    sprite: `https://img.pokemondb.net/sprites/scarlet-violet/normal/${name}.png`,
+    placeholder: `https://picsum.photos/seed/${name}/200`,
+  };
+
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const img = e.currentTarget;
+    if (img.src === imageUrls.avif) {
+      img.src = imageUrls.large;
+    } else if (img.src === imageUrls.large) {
+      img.src = imageUrls.sprite;
+    } else if (img.src === imageUrls.sprite) {
+      img.src = imageUrls.placeholder;
+    }
+  };
 
   // Helper function to handle the array-to-string logic for table cells
   const renderFieldValue = (value: any) => {
@@ -53,9 +77,10 @@ export const DetailPage = () => {
 
       <div style={{display: 'flex', gap: '3rem', alignItems: 'flex-start'}}>
         <img
-          src={avifUrl}
+          src={imageUrls.avif} // Start with highest quality
           alt={result.title}
           title={result.title}
+          onError={handleImageError} // Trigger the fallback chain
           style={{
             width: 'auto',
             maxHeight: '400px',
@@ -79,7 +104,7 @@ export const DetailPage = () => {
             }}
           />
 
-          {/* ATTRIBUTES TABLE */}
+          {/* ATTRIBUTES TABLE 1 */}
           <table
             style={{
               width: '100%',
@@ -116,6 +141,7 @@ export const DetailPage = () => {
             </tbody>
           </table>
 
+          {/* ATTRIBUTES TABLE 2 */}
           <table
             style={{
               width: '100%',
@@ -162,15 +188,9 @@ export const DetailPage = () => {
                 borderRadius: '5px',
                 fontSize: '0.8rem',
                 marginTop: '0.5rem',
-
-                /* FIX: These three lines prevent the window overflow */
-                whiteSpace:
-                  'pre-wrap' /* Allows text to wrap to the next line */,
-                wordWrap:
-                  'break-word' /* Forces long strings (like URLs or desc) to break */,
-                overflowX:
-                  'hidden' /* Prevents horizontal scrollbars entirely */,
-
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word',
+                overflowX: 'hidden',
                 border: '1px solid #ddd',
               }}
             >

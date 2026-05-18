@@ -22,15 +22,15 @@ const PokemonResultCard: FunctionComponent<PokemonResultCardProps> = ({
   result,
   externalNavigate,
 }) => {
-  // 1. Format Name once for all URL options
   const rawName = (result.raw.pokemon_name as string) || '';
   const name = rawName
     .toLowerCase()
     .trim()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Strips accents like é -> e
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
-  // 2. Define prioritized image URLs
   const imageUrls = {
     avif: `https://img.pokemondb.net/artwork/avif/${name}.avif`,
     large: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
@@ -38,7 +38,6 @@ const PokemonResultCard: FunctionComponent<PokemonResultCardProps> = ({
     placeholder: `https://picsum.photos/seed/${name}/200`,
   };
 
-  // 3. Fallback logic when an image fails to load
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
